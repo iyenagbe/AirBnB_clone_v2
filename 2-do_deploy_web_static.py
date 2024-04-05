@@ -5,7 +5,7 @@ from fabric.api import env
 from fabric.api import put
 from fabric.api import run
 
-env.hosts = ["104.196.168.90", "35.196.46.172"]
+env.hosts = ["34.229.161.131", "54.89.46.50"]
 
 
 def do_deploy(archive_path):
@@ -24,26 +24,26 @@ def do_deploy(archive_path):
 
     if put(archive_path, "/tmp/{}".format(file)).failed is True:
         return False
-    if run("rm -rf /data/web_static/releases/{}/".
+    if run("sudo rm -rf /data/web_static/releases/{}/".
            format(name)).failed is True:
         return False
-    if run("mkdir -p /data/web_static/releases/{}/".
+    if run("sudo mkdir -p /data/web_static/releases/{}/".
            format(name)).failed is True:
         return False
-    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
+    if run("sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
            format(file, name)).failed is True:
         return False
-    if run("rm /tmp/{}".format(file)).failed is True:
+    if run("sudo rm /tmp/{}".format(file)).failed is True:
         return False
-    if run("mv /data/web_static/releases/{}/web_static/* "
+    if run("sudo mv /data/web_static/releases/{}/web_static/* "
            "/data/web_static/releases/{}/".format(name, name)).failed is True:
         return False
-    if run("rm -rf /data/web_static/releases/{}/web_static".
+    if run("sudo rm -rf /data/web_static/releases/{}/web_static".
            format(name)).failed is True:
         return False
-    if run("rm -rf /data/web_static/current").failed is True:
+    if run("sudo rm -rf /data/web_static/current").failed is True:
         return False
-    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
+    if run("sudo ln -s /data/web_static/releases/{}/ /data/web_static/current".
            format(name)).failed is True:
         return False
     return True
